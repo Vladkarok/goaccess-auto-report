@@ -31,10 +31,10 @@ check_config_variables() {
 }
 
 # Load the configuration file
-CONFIG_FILE="report-config.cfg"
-if [ -f "$CONFIG_FILE" ]; then
-    # shellcheck source=report-config.cfg
-    source "$CONFIG_FILE"
+CONFIG_FILE="${HOME}/goaccess-auto-report/report-config.cfg"
+if [ -f "${CONFIG_FILE}" ]; then
+    # shellcheck source="report-config.cfg"
+    source "${CONFIG_FILE}"
     check_config_variables
 else
     echo "Configuration file '$CONFIG_FILE' not found."

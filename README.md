@@ -32,9 +32,11 @@ Run the script with one of the following arguments:
 - `./report.sh week` for the past week's logs.
 For automation you can configure cron:
 ```
-1 * * * * /path/to/script/report.sh today
-5 0 * * * /path/to/script/report.sh yesterday
-10 0 * * * /path/to/script/report.sh week
+HOME="/home/{your_user}"
+1 * * * * ${HOME}/goaccess-auto-report/report.sh today
+5 0 * * * ${HOME}/goaccess-auto-report/report.sh yesterday
+10 0 * * * ${HOME}/goaccess-auto-report/report.sh week
+15 0 * * * ${HOME}/goaccess-auto-report/dbsizewatch.sh
 ```
 In this example, today's report will be generated every hour at 01 minute, yesterday's report every day at 00:05, and the week's report every day at 00:10.
 
