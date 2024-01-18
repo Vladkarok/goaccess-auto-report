@@ -2,6 +2,7 @@
 
 ## Description
 This script automates the process of generating log reports using GoAccess from a remote server. It supports generating reports for today, yesterday, or the past week, and modifies the report file to display navigation links to the corresponding reports.
+![example-buttons](./extras/demo-buttons.png)
 
 ## Requirements
 - Bash
