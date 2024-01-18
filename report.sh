@@ -7,7 +7,7 @@ The report file is modified so it displays 3 links to according reports. You can
 '
 check_config_variables() {
     local missing_variables=()
-    local required_vars=("JOB_THREADS" "REMOTE_USER" "REMOTE_HOST" "REMOTE_LOG_DIRECTORY" "GOACCESS_HOME" "REPORT_DIRECTORY" "SCRIPT_LOG_FILE" "GOACCESS_CONFIG" "DATABASE_PATH")
+    local required_vars=("JOB_THREADS" "REMOTE_USER" "REMOTE_HOST" "REMOTE_LOG_DIRECTORY" "GOACCESS_HOME" "REPORT_DIRECTORY" "SCRIPT_LOG_FILE" "GOACCESS_CONFIG" "DATABASE_PATH" "LOADING_BACKGROUND_COLOR")
     local optional_vars=("FILTERED_IP" "GEO_DB_ASN" "GEO_DB_CITY")  # These variables are optional
 
     for var in "${required_vars[@]}"; do
@@ -291,6 +291,8 @@ generate_report() {
     local zcat_command="${zcat}"
     local func_argument=""
     local exclude_command=""
+    local old_loading_background_color='#f0f0f0'
+    local new_loading_background_color="$LOADING_BACKGROUND_COLOR"
 
     # Check if an argument for persist and restore was provided
     case "${PERSIST_RESTORE}" in
@@ -368,6 +370,9 @@ generate_report() {
 
     # Add navigation links to bottom
     ${echo} -e "${nav_links_html}\n" >> "${local_report_file}" || log_message "Warning! Failed to add navigation links to the bottom."
+
+    # Change loading background color
+    ${sed} -i "s/background: ${old_loading_background_color};/background: ${new_loading_background_color};/g" "${local_report_file}" || log_message "Warning! Failed to edit loading background color."
 
     log_message "Links added."
 
