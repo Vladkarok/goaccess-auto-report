@@ -252,12 +252,13 @@ extract_and_validate_date() {
     local valid_date_regex='^(0[1-9]|[12][0-9]|3[01])\/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\/[0-9]{4}'
     local date
 
+    # Read lines 2 to 5 (or any other range) at once and process them
+    readarray -t lines < <(zcat "$gz_file" | awk 'NR>=2 && NR<=5 {print $4}' | sed 's/\[//g;s/:.*//g')
 
-    # Extract dates from multiple lines for validation
-    for i in {2..5}; do
-        date="$(${zcat} "$gz_file" | ${awk} -v line_num="${i}" 'NR==line_num{print $4}' | ${sed} 's/\[//g;s/:.*//g')"
+    # Validate each date
+    for date in "${lines[@]}"; do
         if [[ $date =~ $valid_date_regex ]]; then
-            dates+=("${date//[[]/}")
+            dates+=("$date")
         else
             log_error "Invalid date format found: $date"
             return 1
