@@ -252,8 +252,8 @@ extract_and_validate_date() {
     local valid_date_regex='^(0[1-9]|[12][0-9]|3[01])\/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\/[0-9]{4}'
     local date
 
-    # Read lines 2 to 5 (or any other range) at once and process them
-    readarray -t lines < <(zcat "$gz_file" | awk 'NR>=2 && NR<=5 {print $4}' | sed 's/\[//g;s/:.*//g')
+    # Extract the first 5 lines without first line
+    readarray -t lines < <(zcat "$gz_file" | head -n 6 | tail -n 5 | awk '{print $4}' | sed 's/\[//g;s/:.*//g')
 
     # Validate each date
     for date in "${lines[@]}"; do
